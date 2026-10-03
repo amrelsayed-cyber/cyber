@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منصة الدفعة | الأمن السيبراني</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F7FA;--card:#fff;--ink:#0F2038;--mut:#5A6A7F;--line:#E3E8EF;--ac:#0C7C80;--acs:#E4F3F2;--gold:#B98A2E;--r:16px}
+*{box-sizing:border-box;margin:0}
+body{font:400 15px/1.8 'IBM Plex Sans Arabic',Tahoma,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
+.wrap{max-width:1100px;margin:auto;padding:0 20px;width:100%}
+main{flex:1;padding:32px 0 56px}
+.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:8px}
+header{background:rgba(255,255,255,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;text-align:start}
+.brand .logo{width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center}
+.brand b{display:block;font-weight:700;font-size:16px;line-height:1.3}
+.brand small{color:var(--mut);font-size:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:999px;background:var(--ac);color:#fff;font-weight:600;font-size:14px;transition:background .2s}
+.btn:hover{background:#0a6568}
+.btn.ghost{background:var(--acs);color:var(--ac)}
+.btn.ghost:hover{background:#d3ecea}
+.btn.sm{padding:5px 14px;font-size:13px}
+.btn.dark{background:var(--ink)}
+.hide{display:none!important}
+/* hero */
+.hero{position:relative;display:grid;grid-template-columns:1.25fr 1fr;gap:32px;align-items:center;padding:12px 0 36px}
+.hero>svg.bg{position:absolute;inset-inline-start:-40px;top:-30px;width:340px;height:340px;stroke:var(--ac);stroke-width:.5;opacity:.09;fill:none;pointer-events:none}
+.hero>*{position:relative}
+.hero h1{font-size:clamp(28px,4.2vw,44px);line-height:1.35;font-weight:700;letter-spacing:-.01em;max-width:15em}
+.hero p{color:var(--mut);margin:14px 0 22px;max-width:34em}
+.search{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:0 18px;max-width:420px;box-shadow:0 1px 2px rgba(15,32,56,.04)}
+.search:focus-within{border-color:var(--ac)}
+.search .i{color:var(--mut);width:18px;height:18px}
+input,select,textarea{font:inherit;color:var(--ink);width:100%;border:0;background:none;outline:0;padding:11px 0}
+.today{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px 24px;box-shadow:0 12px 32px -18px rgba(15,32,56,.18)}
+.today h3,.today h4{font-size:14px;font-weight:600;color:var(--mut)}
+.slot{display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--line);align-items:center}
+.slot:last-child{border:0}
+.slot time{font-weight:700;color:var(--ac);min-width:62px;font-size:14px}
+.slot b{display:block;font-weight:600;font-size:14px;line-height:1.5}
+.slot small{color:var(--mut);font-size:12px}
+.slot .due{margin-inline-start:auto;font-size:12px;font-weight:600;color:var(--gold);background:#FBF4E4;padding:2px 10px;border-radius:999px;white-space:nowrap}
+.today h4{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+/* services */
+h2.sec{font-size:20px;font-weight:700;margin:8px 0 16px}
+.svcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.svc{display:flex;gap:16px;align-items:flex-start;text-align:start;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;transition:border-color .2s,transform .2s}
+.svc:hover{border-color:var(--ac);transform:translateY(-2px)}
+.svc .ic{width:46px;height:46px;border-radius:14px;background:var(--acs);color:var(--ac);display:grid;place-items:center;flex:none}
+.svc b{display:block;font-size:16px;font-weight:600;margin-bottom:2px}
+.svc span{color:var(--mut);font-size:13px;line-height:1.7;display:block}
+.svc>.i{margin-inline-start:auto;color:var(--mut);margin-top:12px;width:18px;height:18px}
+/* views */
+.view{display:none;animation:in .3s ease}
+.view.on{display:block}
+@keyframes in{from{opacity:0}to{opacity:1}}
+.vh{margin-bottom:24px}
+.vh h2{font-size:26px;font-weight:700;line-height:1.4}
+.vh p{color:var(--mut);margin-top:4px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px}
+.narrow{max-width:520px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;text-align:start;transition:border-color .2s}
+.card:hover{border-color:var(--ac)}
+.card h3{font-size:17px;font-weight:600;margin:8px 0 4px;line-height:1.5}
+.card p{color:var(--mut);font-size:13px}
+.card footer{display:flex;justify-content:space-between;color:var(--mut);font-size:12px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.tag{display:inline-block;font-size:12px;font-weight:600;color:var(--ac);background:var(--acs);padding:1px 12px;border-radius:999px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border:0}
+.row span{font-size:14px;font-weight:500}
+.tabs{display:flex;gap:8px;overflow-x:auto;margin:14px 0 6px;padding-bottom:4px}
+.tabs button{padding:6px 16px;border-radius:999px;border:1px solid var(--line);font-size:13px;font-weight:500;color:var(--mut);white-space:nowrap}
+.tabs button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.panel h3{font-size:18px;font-weight:600}
+.panel h3+small{color:var(--mut)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:4px}
+.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--ac)}
+.qrow{display:flex;gap:10px;margin:18px 0}
+.qrow input{border:1px solid var(--line);border-radius:999px;padding:10px 20px;background:#fff}
+.stu{background:var(--ink);color:#fff;border-radius:20px;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.stu small{color:#9FB0C6}
+.stu h3{font-size:20px}
+.res{margin-bottom:16px}
+.res>header{position:static;background:none;border:0;backdrop-filter:none;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding-bottom:14px}
+.res h3{font-size:18px}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.nums div,.kv div{background:var(--bg);border-radius:12px;padding:10px 12px;text-align:center;font-weight:700}
+.nums small,.kv small{display:block;font-weight:400;color:var(--mut);font-size:12px}
+.nums .tot{background:var(--acs);color:var(--ac)}
+.who{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:14px}
+.who>b{font-weight:600}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-top:8px}
+.kv div{font-size:13px;font-weight:500}
+.mid{text-align:center;padding:36px 20px;color:var(--mut)}
+.big{font-size:22px;font-weight:700;color:var(--ac)}
+dialog{border:0;border-radius:20px;padding:0;width:min(560px,92vw);max-height:88vh;box-shadow:0 30px 80px -20px rgba(15,32,56,.4);font:inherit;color:var(--ink)}
+dialog::backdrop{background:rgba(15,32,56,.4);backdrop-filter:blur(3px)}
+dialog>div{padding:24px}
+dialog h4{font-size:14px;font-weight:600;margin:18px 0 4px;color:var(--mut)}
+footer.f{border-top:1px solid var(--line);background:#fff;padding:20px 0;text-align:center;color:var(--mut);font-size:13px}
+@media(max-width:780px){.hero,.grid2{grid-template-columns:1fr}.nums{grid-template-columns:1fr 1fr}.brand small{display:none}main{padding-top:20px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* schedule */
+.sched{padding:28px;margin-bottom:20px;box-shadow:0 12px 32px -18px rgba(15,32,56,.18)}
+.sched-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.sched-h h2{font-size:24px;font-weight:700}
+.key{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut)}
+.key i{width:4px;height:16px;border-radius:2px;background:var(--ac);padding:0;margin:0 0 0 0}
+.key i.sec{background:var(--gold);margin-inline-start:10px}
+.week{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.day{background:var(--bg);border-radius:14px;padding:14px;min-height:300px}
+.day.now{background:var(--acs);outline:1.5px solid var(--ac)}
+.day h4{font-size:15px;font-weight:700;margin-bottom:10px}
+.day .none{color:var(--mut);font-size:13px}
+.ev{background:#fff;border-radius:12px;padding:10px 12px;margin-bottom:8px;border-inline-start:3px solid var(--ac)}
+.ev.sec{border-color:var(--gold)}
+.ev time{font-size:12px;font-weight:700;color:var(--ac);display:block}
+.ev.sec time{color:var(--gold)}
+.ev b{display:block;font-size:14px;line-height:1.5;font-weight:600}
+.ev small{color:var(--mut);font-size:12px}
+.key i.ev{padding:0;margin:0;border:0;background:var(--ac)}
+.key i.ev.sec{background:var(--gold)}
+.svcs{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))!important}
+.svc{align-items:center!important;padding:16px!important}
+.svc>.i{display:none}
+body{background:radial-gradient(900px 420px at 85% -80px,#D9EFED 0,transparent 70%),var(--bg)}
+.nav{display:flex;gap:4px}
+.nav button{padding:6px 16px;border-radius:999px;font-size:14px;font-weight:500;color:var(--mut);transition:.2s}
+.nav button:hover{color:var(--ink)}
+.nav button.on{background:var(--acs);color:var(--ac)}
+.greet{padding:4px 0 24px}
+.greet h1{font-size:clamp(26px,4vw,38px);line-height:1.35;font-weight:700;letter-spacing:-.01em}
+.greet p{color:var(--mut);margin-top:6px}
+.day.now h4::after{content:"اليوم";font-size:11px;font-weight:600;background:var(--ac);color:#fff;border-radius:999px;padding:1px 9px;margin-inline-start:8px}
+.svc{flex-direction:column;align-items:flex-start!important;padding:20px!important;gap:14px}
+.svc b{margin:0;font-size:15px}
+.bar{height:6px;background:var(--line);border-radius:9px;margin-bottom:16px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),#46BDB3);border-radius:9px}
+.tabbar{display:none}
+@media(max-width:1024px){.nav{display:none}.day{min-height:0}main{padding-bottom:96px}
+.tabbar{display:flex;position:fixed;bottom:0;inset-inline:0;z-index:6;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
+.tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;font-size:11px;line-height:1.5;color:var(--mut)}
+.tabbar button.on{color:var(--ac);font-weight:600}}
+.sched{margin-top:36px;margin-bottom:0}
+.dtabs{margin:0 0 16px}
+.dtabs button.today::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin-inline-start:7px;vertical-align:middle}
+.evs{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.evs .ev{background:var(--bg);margin:0}
+.evs .none{color:var(--mut);font-size:14px;padding:18px 0;grid-column:1/-1}
+.svcs{grid-template-columns:repeat(3,1fr)!important;gap:18px}
+.svc{padding:28px!important;gap:16px;min-height:200px;border-radius:20px}
+.svc .ic{width:56px;height:56px;border-radius:16px}
+.svc .ic .i{width:26px;height:26px}
+.svc b{font-size:18px}
+.pick{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.pick .dtabs{flex:1;min-width:0;margin:0}
+.pick select{width:auto;border:1px solid var(--line);border-radius:999px;padding:6px 16px;background:#fff;font-size:13px;font-weight:500;cursor:pointer}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+.tt{border-collapse:separate;border-spacing:0;width:100%;min-width:980px;font-size:13px}
+.tt th,.tt td{border-bottom:1px solid var(--line);border-inline-start:1px solid var(--line);padding:8px;text-align:center;vertical-align:middle}
+.tt thead th{background:var(--bg);font-weight:600}
+.tt thead small{display:block;color:var(--mut);font-weight:400;font-size:11px}
+.tt th.g{background:var(--ink);color:#fff;width:64px;font-weight:700;position:sticky;inset-inline-start:0;z-index:2}
+.tt th.n{background:var(--acs);color:var(--ac);width:76px;font-size:12px;position:sticky;inset-inline-start:64px;z-index:2}
+.tt thead th.g,.tt thead th.n{font-size:11px}
+.tt td{min-width:150px;height:64px}
+.tt td.emp{background:#FAFBFD}
+.tt tr.gs>*{border-top:2px solid var(--ink)}
+.tt .ev{margin:0;text-align:start;background:var(--bg);padding:8px 10px}
+.tt .ev b{font-size:13px;line-height:1.5}
+.note{background:#FBF4E4;border:1px solid #F0E2BE;border-radius:14px;padding:14px 18px;color:#6B4E12;font-size:14px;margin-bottom:16px;max-width:520px}
+@media(max-width:780px){.svcs{grid-template-columns:1fr 1fr!important;gap:12px}.svc{padding:18px!important;min-height:0}.svc b{font-size:15px}.svc .ic{width:46px;height:46px}.svc span{font-size:12px}}
+dialog{margin:auto}
+.back{display:inline-flex;align-items:center;gap:6px;padding:6px 16px 6px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:13px;font-weight:500;color:var(--mut);margin-bottom:16px;transition:.2s}
+.back:hover{color:var(--ink);border-color:var(--ac)}
+.back .i{width:16px;height:16px;transform:scaleX(-1)}
+.svc .tx{flex:1;min-width:0}
+.none{color:var(--mut);font-size:13px}
+.dsel,.ml{display:none}
+.mg{display:inline-block;background:var(--ink);color:#fff;font-weight:700;border-radius:12px;padding:4px 18px;margin:18px 0 10px}
+.mg:first-child{margin-top:0}
+.ms{background:var(--bg);border-radius:16px;padding:14px;margin-bottom:12px}
+.ms h5{font-size:14px;font-weight:700;color:var(--ac);margin-bottom:8px}
+.ms .ev:last-child{margin-bottom:0}
+@media(max-width:640px){
+.pick .dtabs{display:none}.dsel{display:block}
+.pick{flex-wrap:nowrap}.pick select{flex:1;min-width:0;padding:10px 14px;font-size:14px}
+.tw{display:none}.ml{display:block}
+.svcs{grid-template-columns:1fr!important;gap:12px}
+.svc{flex-direction:row;align-items:center!important;gap:14px;padding:16px 18px!important;min-height:0}
+.svc .ic{width:50px;height:50px}.svc b{font-size:16px}.svc span{font-size:13px}
+}
+.swipe{display:none;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--ac);background:var(--acs);border-radius:999px;padding:5px 14px;margin-bottom:10px;width:fit-content}
+.swipe.show{display:flex}
+.swipe .i{width:16px;height:16px;animation:nudge 1.4s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateX(0) scaleX(-1)}50%{transform:translateX(7px) scaleX(-1)}}
+.tt.one{min-width:0}
+.tt.one td{min-width:100px;height:auto}
+@media(min-width:641px) and (max-width:1024px){
+.svcs{grid-template-columns:1fr 1fr!important;gap:16px}
+.svc{padding:24px!important;min-height:180px}
+.svc b{font-size:17px}.svc .ic{width:52px;height:52px}.svc span{font-size:13px}
+}
+@media(min-width:641px) and (max-width:1024px){.tabbar{justify-content:center;gap:8px}.tabbar button{max-width:170px}}
+
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-bottom:10px;font-size:14px}
+.crumbs button{color:var(--ac);font-weight:600;padding:2px 8px;border-radius:8px}
+.crumbs button:hover{background:var(--acs)}
+.crumbs button:last-of-type{color:var(--ink)}
+.crumbs span{color:var(--mut)}
+.fold{width:100%;text-align:start}
+.fold:hover .fn>span{color:var(--ac)}
+.fold>.i{width:18px;height:18px;color:var(--mut);flex:none}
+.fn{display:flex;align-items:center;gap:12px;min-width:0}
+.fn>.i{color:var(--ac);width:22px;height:22px;flex:none}
+.fn small{display:block;color:var(--mut);font-weight:400;font-size:12px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+<symbol id="book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5M9 7h6"/></symbol>
+<symbol id="users" viewBox="0 0 24 24"><path d="M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 20c0-3 3-5 6-5s6 2 6 5M17 5a3 3 0 0 1 0 6M21 20c0-2-1-4-3-4.6"/></symbol>
+<symbol id="file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/></symbol>
+<symbol id="search" viewBox="0 0 24 24"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM21 21l-5-5"/></symbol>
+<symbol id="mail" viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 7l9 7 9-7"/></symbol>
+<symbol id="chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+<symbol id="folder" viewBox="0 0 24 24"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="arr" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+<symbol id="home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></symbol>
+</defs></svg>
+
+<header><div class="wrap">
+  <a href="#" class="brand" onclick="go('home');return false">
+    <span class="logo"><svg class="i"><use href="#shield"/></svg></span>
+    <span><b>منصة الدفعة</b><small>الأمن السيبراني • إشراف ليدر الدفعة عمرو السيد</small></span>
+  </a>
+  <nav class="nav" id="nav"></nav>
+  <span style="display:flex;gap:8px">
+    
+    <a class="btn" id="waTop" target="_blank" rel="noopener"><svg class="i" style="width:16px;height:16px"><use href="#chat"/></svg>تواصل مع الليدر</a>
+  </span>
+</div></header>
+
+<main><div class="wrap">
+
+<!-- HOME -->
+<section id="home" class="view on">
+  <div class="greet"><h1>أهلاً بك في منصة الدفعة</h1><p>جدولك وموادك ونتائجك وجروباتك في مكان واحد.</p></div>
+  <div class="svcs" id="svcs"></div>
+  <div class="panel sched">
+    <div class="sched-h"><h2>الجدول الدراسي</h2><span class="key"><i class="ev"></i>محاضرة <i class="ev sec"></i>سكشن</span></div>
+    <div class="pick"><div class="tabs dtabs" id="dayTabs"></div><select id="daySel" class="dsel" onchange="pickDay(this.value)" aria-label="اختر اليوم"></select><select id="secSel" onchange="setSec(this.value)" aria-label="اختر السكشن"></select></div>
+    <div class="evs" id="week"></div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results" class="view">
+  <div class="vh"><h2>نتائج الامتحانات</h2><p>اكتب اسمك أو الكود الجامعي لعرض درجاتك مع تفاصيل الدكتور والمعيد.</p></div>
+  <div class="qrow" style="max-width:560px"><input id="rq" placeholder="الاسم أو الكود الجامعي" onkeydown="if(event.key=='Enter')searchRes()"><button class="btn" onclick="searchRes()">عرض النتائج</button></div>
+  <div id="rOut"></div>
+</section>
+
+<!-- SUBJECTS -->
+<section id="subjects" class="view">
+  <div id="subList">
+    <div class="vh"><h2>المواد الدراسية</h2><p>اختر المادة لعرض المحاضرات حسب الدكتور والسكاشن حسب المعيد.</p></div>
+    <div class="cards" id="subGrid"></div>
+  </div>
+  <div id="subDet" class="hide">
+    <div class="vh"><h2 id="sTitle"></h2><p id="sDesc"></p></div>
+    <div class="panel hide" id="fb"></div>
+    <div class="grid2" id="oldPanes">
+      <div class="panel"><h3>المحاضرات</h3><small>حسب الدكتور</small><div class="tabs" id="dTabs"></div><div id="dList"></div></div>
+      <div class="panel"><h3>السكاشن</h3><small>حسب المعيد</small><div class="tabs" id="tTabs"></div><div id="tList"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GROUPS -->
+<section id="groups" class="view">
+  <div class="vh"><h2>الجروبات الرسمية</h2><p>جروبات الدفعة، وجروبات كل مادة مع دكاترتها ومعيديها.</p></div>
+  <div class="panel" style="margin-bottom:28px">
+    <h3>جروبات الدفعة</h3>
+    <div id="cohortGroups"></div>
+  </div>
+  <h2 class="sec">جروبات المواد</h2>
+  <div class="cards" id="grpGrid"></div>
+</section>
+
+<!-- EXAMS -->
+<section id="exams" class="view">
+  <div class="vh"><h2>امتحانات الأعوام السابقة</h2><p>نماذج الميدتيرم والفاينال وحلول الشيتات لكل مادة.</p></div>
+  <div class="grid2" id="exGrid"></div>
+</section>
+
+<!-- LOOKUP -->
+<section id="lookup" class="view">
+  <div class="vh"><h2>معرفة السكشن والمجموعة</h2><p>اكتب اسمك أو الكود الجامعي لمعرفة سكشنك ومجموعتك.</p></div>
+  <div class="panel narrow">
+    <div class="qrow" style="margin-top:0"><input id="lq" placeholder="الاسم أو الكود الجامعي" onkeydown="if(event.key=='Enter')lookup()"><button class="btn" onclick="lookup()">بحث</button></div>
+    <div id="lOut"></div>
+  </div>
+</section>
+
+<!-- REQUEST -->
+<section id="request" class="view">
+  <div class="vh"><h2>طلب البيانات الجامعية</h2><p>اختر المطلوب وسيصل طلبك إلى الليدر على الواتساب.</p></div>
+  <div class="note"><b>لماذا الطلب عن طريق الليدر؟</b><br>البيانات الجامعية لا يصح لأي أحد الاطلاع عليها، لذلك أرسل رسالة لليدر وسيتم التواصل معك في أقرب وقت. اكتب اسمك بالكامل ورقم موبايلك (لأن واتساب يخفي الرقم إذا كنت تستخدم اليوزر) والمطلوب.</div>
+  <form class="panel narrow" onsubmit="sendReq(event)">
+    <div class="field"><label>الاسم بالكامل</label><input id="rn" required placeholder="مثال: أحمد محمد علي"></div>
+    <div class="field"><label>رقم الواتساب</label><input id="rp" type="tel" required placeholder="010xxxxxxxx"></div>
+    <div class="field"><label>المطلوب</label><select id="rt"><option>الإيميل الجامعي والباسورد</option><option>الكود الجامعي</option><option>بيانات قيد طالب</option><option>بيانات أخرى</option></select></div>
+    <div class="field"><label>ملاحظات (اختياري)</label><textarea id="rm" rows="2"></textarea></div>
+    <button class="btn" style="width:100%;justify-content:center;padding:12px">إرسال الطلب عبر الواتساب</button>
+  </form>
+</section>
+
+<!-- LEADER -->
+<section id="leader" class="view">
+  <div class="panel narrow mid" style="color:var(--ink)">
+    <div class="brand" style="justify-content:center;margin-bottom:12px"><span class="logo" style="width:64px;height:64px;border-radius:50%"><svg class="i" style="width:30px;height:30px"><use href="#shield"/></svg></span></div>
+    <h2 style="font-size:22px">عمرو السيد (Amr Elsayed)</h2>
+    <p class="tag" style="margin:6px 0 14px">ليدر الدفعة ومطور المنصة</p>
+    <p style="color:var(--mut);margin-bottom:20px">هدف المنصة تنظيم المحاضرات والسكاشن وخدمة كل طالب في الأمن السيبراني. لأي مشكلة أكاديمية أو اقتراح، تواصل معي مباشرة.</p>
+    <a class="btn" id="waLead" target="_blank" rel="noopener">تواصل عبر الواتساب</a>
+  </div>
+</section>
+
+</div></main>
+
+<dialog id="dlg"><div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><span class="tag" id="dCode"></span><h3 id="dTitle" style="font-size:19px;margin-top:6px"></h3></div><button class="btn ghost sm" onclick="dlg.close()">إغلاق</button></div>
+  <h4>جروبات الدكاترة</h4><div id="dDocs"></div>
+  <h4>جروبات المعيدين</h4><div id="dTas"></div>
+</div></dialog>
+
+<nav class="tabbar" id="tabbar"></nav>
+<footer class="f">منصة الدفعة الرسمية • الأمن السيبراني • إشراف عمرو السيد © 2026</footer>
+
+<script src="settings.js"></script>
+<script src="subjects.js"></script>
+<script src="schedule.js"></script>
+<script src="results.js"></script>
+<script src="files-data.js"></script>
+<script>
+/* البيانات بتيجي من settings.js وsubjects.js وschedule.js وresults.js (كل ملف بيحط بياناته في D) */
+const {WA="",EXAMS_OPEN=false,cohortGroups=[],subjects=[],days=["السبت","الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس"],periods=["8:30 – 10:00","10:15 – 11:45","12:00 – 1:30","1:45 – 3:15","3:30 – 5:00"],ordn=["الأولى","الثانية","الثالثة","الرابعة","الخامسة"],groups={B1:[1,3],B2:[4,6],B3:[7,10]},schedule=[],results=[],students=[]}=window.D||{};
+{const bad=["settings","subjects","schedule","results"].filter(k=>!(window.D&&D.ok&&D.ok[k]));
+if(bad.length)document.querySelector("main .wrap").insertAdjacentHTML("afterbegin",`<div class="note" style="max-width:none;background:#FDECEC;border-color:#F5C2C2;color:#8A1F1F"><b>تنبيه:</b> في خطأ في ملف (${bad.map(k=>k+".js").join(" و ")}) فتم تجاهله مؤقتاً. راجع آخر تعديل عملته فيه، غالباً فاصلة ناقصة أو علامة تنصيص مفتوحة، أو ارجع لنسخة قديمة من History.</div>`);}
+const wa=t=>`https://wa.me/${WA}?text=${encodeURIComponent(t)}`;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+$('#waTop').href=wa('السلام عليكم يا عمرو، أنا طالب في الدفعة');
+$('#waLead').href=wa('السلام عليكم يا عمرو، عندي استفسار');
+
+const services=[
+["subjects","book","المواد والمحاضرات","المحاضرات حسب الدكتور، والسكاشن حسب المعيد."],
+["groups","users","الجروبات الرسمية","جروبات الدفعة وجروبات كل مادة بدكاترتها ومعيديها."],
+["results","chart","نتائج الامتحانات","درجاتك في كل مادة مع تفاصيل الدكتور والمعيد."],
+["exams","file","امتحانات الأعوام السابقة","تتوفر قبل الامتحانات بأسبوعين."],
+["request","mail","طلب البيانات الجامعية","الإيميل الجامعي أو الكود عن طريق الليدر."],
+["leader","chat","التواصل مع الليدر","لأي استفسار أو مشكلة أو اقتراح."]];
+
+/* روابط التحميل: ملف على الموقع (files/...) = تحميل مباشر | رابط مشاركة درايف = بيتحول لتحميل مباشر | أي رابط تاني = بيتفتح */
+const dlAttr=l=>{
+  if(!l||l==='#')return 'href="#"';
+  const m=/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?[^"]*?id=)([\w-]+)/.exec(l);
+  if(m)return `href="https://drive.google.com/uc?export=download&id=${m[1]}" target="_blank" rel="noopener"`;
+  return /^https?:/.test(l)?`href="${l}" target="_blank" rel="noopener"`:`href="${encodeURI(l)}" download`;
+};
+const ico=n=>`<svg class="i"><use href="#${n}"/></svg>`;
+const empty=(t,s)=>`<div class="panel mid"><b style="color:var(--ink)">${t}</b><p>${s}</p></div>`;
+
+const navItems=[['home','home','الرئيسية'],['subjects','book','المواد'],['groups','users','الجروبات'],['request','mail','البيانات الجامعية']];
+$('#nav').innerHTML=navItems.map(n=>`<button data-v="${n[0]}" onclick="go('${n[0]}')">${n[2]}</button>`).join('');
+$('#tabbar').innerHTML=navItems.map(n=>`<button data-v="${n[0]}" onclick="go('${n[0]}')">${ico(n[1])}${n[2]}</button>`).join('');
+$$('[data-v=home]').forEach(b=>b.classList.add('on'));
+/* home */
+const todayName=["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"][new Date().getDay()];
+let curDay=days.includes(todayName)?todayName:days[0],curSec=0;
+try{curSec=+localStorage.getItem('sec')||0}catch(e){}
+if(curSec<0||curSec>10)curSec=0;
+const norm=e=>e.g?{...e,s:groups[e.g][0],n:groups[e.g][1]-groups[e.g][0]+1}:{...e,n:e.n||1};
+const info=x=>`<small>${x.k} • ${x.who}${x.p?' • '+x.p:''}</small>`;
+function drawSched(){
+  $$('#dayTabs button').forEach(b=>b.classList.toggle('on',b.dataset.d===curDay));
+  $('#daySel').value=curDay;
+  const es=schedule.filter(x=>x.d===curDay).map(norm),w=$('#week');
+  const card=x=>`<div class="ev${x.k==='سكشن'?' sec':''}"><time>الفترة ${ordn[x.per-1]} • ${periods[x.per-1]}</time><b>${x.t}</b>${info(x)}</div>`;
+  const mineOf=n=>es.filter(x=>n>=x.s&&n<x.s+x.n).sort((a,b)=>a.per-b.per);
+  const gOf=n=>Object.keys(groups).find(k=>n>=groups[k][0]&&n<=groups[k][1]);
+  const secs=curSec?[curSec]:Array.from({length:10},(_,i)=>i+1); // سكشن واحد أو الكل
+  const occ={};
+  if(curSec)mineOf(curSec).forEach(x=>occ[curSec+'-'+x.per]=x);
+  else es.forEach(x=>{occ[x.s+'-'+x.per]=x;for(let i=1;i<x.n;i++)occ[(x.s+i)+'-'+x.per]='skip'});
+  let h=`<table class="tt${curSec?' one':''}"><thead><tr><th class="g">المجموعة</th><th class="n">السكشن</th>`+periods.map((t,i)=>`<th>الفترة ${ordn[i]}<small>${t}</small></th>`).join('')+'</tr></thead><tbody>';
+  secs.forEach(n=>{
+    const g=gOf(n),first=curSec||n===groups[g][0];
+    h+=`<tr${!curSec&&first&&n>1?' class="gs"':''}>`+(first?`<th class="g" rowspan="${curSec?1:groups[g][1]-groups[g][0]+1}">${g}</th>`:'')+`<th class="n">سكشن ${n}</th>`;
+    for(let p=1;p<=5;p++){const x=occ[n+'-'+p];if(x==='skip')continue;h+=x?`<td rowspan="${curSec?1:x.n}"><div class="ev${x.k==='سكشن'?' sec':''}"><b>${x.t}</b>${info(x)}</div></td>`:'<td class="emp"></td>'}
+    h+='</tr>';
+  });
+  let l='';
+  (curSec?[gOf(curSec)]:Object.keys(groups)).forEach(k=>{l+=`<div class="mg">${k}</div>`;secs.filter(n=>gOf(n)===k).forEach(n=>{const m=mineOf(n);l+=`<div class="ms"><h5>سكشن ${n}</h5>${m.length?m.map(card).join(''):'<p class="none">لا يوجد</p>'}</div>`})});
+  w.className='full';
+  w.innerHTML=`<div class="swipe">${ico('arr')}اسحب لليمين لعرض باقي الجدول</div><div class="tw">${h}</tbody></table></div><div class="ml">${l}</div>`;
+  swipeHint();
+}
+function swipeHint(){
+  const tw=$('#week .tw'),hn=$('#week .swipe');if(!tw||!hn)return;
+  hn.classList.toggle('show',tw.scrollWidth>tw.clientWidth+4);
+  tw.onscroll=()=>{if(Math.abs(tw.scrollLeft)>20)hn.classList.remove('show')};
+}
+addEventListener('resize',swipeHint);
+function pickDay(d){curDay=d;drawSched()}
+function setSec(v){curSec=+v;try{localStorage.setItem('sec',v)}catch(e){}drawSched()}
+$('#dayTabs').innerHTML=days.map(d=>`<button data-d="${d}" class="${d===todayName?'today':''}" onclick="pickDay('${d}')">${d}</button>`).join('');
+$('#secSel').innerHTML='<option value="0">كل السكاشن</option>'+Object.keys(groups).map(k=>`<optgroup label="${k}">`+Array.from({length:groups[k][1]-groups[k][0]+1},(_,i)=>`<option value="${groups[k][0]+i}">سكشن ${groups[k][0]+i} — ${k}</option>`).join('')+'</optgroup>').join('');
+$('#daySel').innerHTML=days.map(d=>`<option value="${d}">${d}${d===todayName?' (اليوم)':''}</option>`).join('');
+$('#secSel').value=curSec;
+drawSched();
+$('#svcs').innerHTML=services.map(s=>`<button class="svc" onclick="go('${s[0]}')"><span class="ic">${ico(s[1])}</span><div class="tx"><b>${s[2]}</b><span>${s[3]}</span></div></button>`).join('');
+
+/* navigation */
+function show(id,sub){
+  const d=$('#dlg');if(d&&d.open)d.close();
+  $$('.view').forEach(v=>v.classList.toggle('on',v.id===id));
+  $$('#nav button,#tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.v===id));
+  if(id==='subjects')sub?renderSub(sub):subBack();
+  if(id==='groups')grpGrid();
+  if(id==='exams')exGrid();
+  scrollTo({top:0,behavior:'smooth'});
+}
+function go(id,sub){
+  const st=history.state||{n:0};
+  if(st.v===id&&(st.sub||null)===(sub||null)){show(id,sub);return}
+  history.pushState({v:id,sub:sub||null,n:st.n+1},'','#'+id+(sub?'/'+sub:''));
+  show(id,sub);
+}
+function back(){const st=history.state;if(st&&st.n>0)history.back();else go('home')}
+addEventListener('popstate',e=>{const st=e.state||{v:'home',sub:null};show(st.v,st.sub)});
+
+/* results */
+function searchRes(){
+  const q=$('#rq').value.trim().toLowerCase(); if(!q)return;
+  const s=results.find(x=>x.name.toLowerCase().includes(q)||x.code===q);
+  $('#rOut').innerHTML=!s?empty('لم يتم العثور على نتائج','تأكد من كتابة الاسم أو الكود الجامعي بشكل صحيح.'):
+  `<div class="stu"><div><small>بيانات الطالب</small><h3>${s.name}</h3><small>الكود الجامعي: ${s.code}</small></div><div style="text-align:center"><small>عدد المواد</small><div class="big" style="color:#7FD6D0">${s.res.length}</div></div></div>`+
+  s.res.map(r=>`<div class="panel res"><header><h3>${r.sub}</h3><span class="tag">التقدير: ${r.st}</span></header><div class="bar"><i style="width:${r.tot.split('/')[0]/r.tot.split('/')[1]*100}%"></i></div>
+  <div class="nums"><div><small>الشفوي / العملي</small>${r.oral}</div><div><small>الميدتيرم</small>${r.mid}</div><div><small>الفاينال</small>${r.fin}</div><div class="tot"><small>المجموع</small>${r.tot}</div></div>
+  <div class="who"><b>الدكتور: ${r.doc.n}</b><div class="kv"><div><small>الميدتيرم</small>${r.doc.mid}</div><div><small>الفاينال</small>${r.doc.fin}</div><div><small>ملاحظات</small>${r.doc.note}</div></div></div>
+  <div class="who"><b>المعيد: ${r.ta.n}</b><div class="kv"><div><small>الشفوي/العملي</small>${r.ta.oral}</div><div><small>الكويزات</small>${r.ta.quiz}</div><div><small>الشيتات</small>${r.ta.sheet}</div><div><small>التقييم</small>${r.ta.note}</div></div></div></div>`).join('');
+}
+
+/* subjects */
+function subBack(){
+  $('#subList').classList.remove('hide');$('#subDet').classList.add('hide');
+  $('#subGrid').innerHTML=subjects.map(s=>`<button class="card" onclick="openSub('${s.id}')"><span class="tag">${s.code}</span><h3>${s.title}</h3><p>${s.desc}</p><footer><span>${s.doctors.length} دكاترة</span><span>${s.tas.length} معيدين</span></footer></button>`).join('');
+}
+function pane(tabsEl,listEl,people){
+  const draw=i=>{
+    $$(tabsEl+' button').forEach((b,j)=>b.classList.toggle('on',i===j));
+    $(listEl).innerHTML=people[i].items.map(x=>`<div class="row"><span>${x.t}</span><a class="btn ghost sm" ${dlAttr(x.l)}>تحميل</a></div>`).join('')||'<p style="color:var(--mut);padding:14px 0">لم تُرفع ملفات بعد</p>';
+  };
+  $(tabsEl).innerHTML=people.map((p,i)=>`<button>${p.name}</button>`).join('');
+  $$(tabsEl+' button').forEach((b,i)=>b.onclick=()=>draw(i));
+  draw(0);
+}
+function openSub(id){go('subjects',id)}
+/* ===== متصفح ملفات المادة (بيقرأ فولدر files/ بأي عمق) ===== */
+const norm2=t=>String(t||'').trim().toLowerCase();
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const subNode=s=>typeof FILES_TREE!=='undefined'&&Array.isArray(FILES_TREE)&&FILES_TREE.find(c=>c.c&&[s.dir,s.id,s.title].some(n=>n&&norm2(n)===norm2(c.n)));
+const sizeTxt=b=>b>=1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round(b/1024))+' KB';
+let fbSub=null,fbPath=[],fbItems=[];
+function drawFb(){
+  const root=subNode(fbSub);let node=root;
+  fbPath=fbPath.filter(n=>{const x=node&&node.c&&node.c.find(y=>y.n===n&&y.c);if(x)node=x;return !!x});
+  const crumbs=[`<button onclick="fbGo(0)">${esc(fbSub.title)}</button>`].concat(fbPath.map((n,i)=>`<button onclick="fbGo(${i+1})">${esc(n)}</button>`)).join('<span>›</span>');
+  fbItems=node.c.slice().sort((a,b)=>(a.c?0:1)-(b.c?0:1));
+  const rows=fbItems.map((x,i)=>{
+    if(x.c)return `<button class="row fold" onclick="fbOpen(${i})"><span class="fn">${ico('folder')}<span>${esc(x.n)}<small>${x.c.length} عنصر</small></span></span>${ico('arr')}</button>`;
+    const href=['files',root.n,...fbPath,x.n].map(encodeURIComponent).join('/'),ext=(x.n.split('.').pop()||'').toUpperCase();
+    return `<div class="row"><span class="fn">${ico('file')}<span>${esc(x.n.replace(/\.[^.]+$/,''))}<small>${ext} • ${sizeTxt(x.s||0)}</small></span></span><a class="btn ghost sm" href="${href}" download>تحميل</a></div>`;
+  }).join('');
+  $('#fb').innerHTML=`<div class="crumbs">${crumbs}</div>${rows||'<p class="none" style="padding:14px 0">المجلد فاضي</p>'}`;
+}
+function fbOpen(i){fbPath.push(fbItems[i].n);drawFb()}
+function fbGo(k){fbPath=fbPath.slice(0,k);drawFb()}
+function renderSub(id){
+  const s=subjects.find(x=>x.id===id);
+  $('#sTitle').textContent=s.title;$('#sDesc').textContent=s.desc;
+  $('#subList').classList.add('hide');$('#subDet').classList.remove('hide');
+  pane('#dTabs','#dList',s.doctors);pane('#tTabs','#tList',s.tas);
+  fbSub=s;fbPath=[];const has=!!subNode(s);
+  $('#fb').classList.toggle('hide',!has);$('#oldPanes').classList.toggle('hide',has);
+  if(has)drawFb();
+  scrollTo({top:0,behavior:'smooth'});
+}
+
+/* groups */
+function grpGrid(){
+  $('#cohortGroups').innerHTML=cohortGroups.map(g=>`<div class="row"><span>${g.name}</span><a class="btn sm" href="${g.url}" target="_blank" rel="noopener">${g.label||'انضمام'}</a></div>`).join('');
+  $('#grpGrid').innerHTML=subjects.map(s=>`<button class="card" onclick="openGrp('${s.id}')"><span class="tag">${s.code}</span><h3>${s.title}</h3><p>${s.desc}</p><footer><span>${s.doctors.length} جروبات دكاترة</span><span>${s.tas.length} جروبات معيدين</span></footer></button>`).join('');
+}
+function openGrp(id){
+  const s=subjects.find(x=>x.id===id), l=p=>p.map(x=>`<div class="row"><span>${x.name}</span><a class="btn sm" href="${x.url}" target="_blank" rel="noopener">جروب ${x.type}</a></div>`).join('');
+  $('#dCode').textContent=s.code;$('#dTitle').textContent=s.title;$('#dDocs').innerHTML=l(s.doctors);$('#dTas').innerHTML=l(s.tas);
+  $('#dlg').showModal();
+}
+
+/* exams */
+function exGrid(){
+  if(!EXAMS_OPEN){$('#exGrid').className='';$('#exGrid').innerHTML=empty('غير متوفرة حاليًا','تتوفر امتحانات الأعوام السابقة قبل الامتحانات بأسبوعين.');return}
+  $('#exGrid').className='grid2';
+  $('#exGrid').innerHTML=subjects.map(s=>`<div class="panel"><span class="tag">${s.code}</span><h3 style="margin:6px 0 4px">${s.title}</h3>${s.exams.map(e=>`<div class="row"><span>${e.t}</span><a class="btn ghost sm" ${dlAttr(e.l)}>تحميل</a></div>`).join('')||'<p style="color:var(--mut);padding:10px 0">لم تُرفع امتحانات بعد</p>'}</div>`).join('');
+}
+
+/* lookup */
+function lookup(){
+  const q=$('#lq').value.trim().toLowerCase(); if(!q)return;
+  const s=students.find(x=>x.name.toLowerCase().includes(q)||x.code===q);
+  $('#lOut').innerHTML=!s?empty('لم يتم العثور على الطالب','راجع الاسم أو الكود وحاول مرة أخرى.'):
+  `<h3 style="text-align:center;margin-bottom:12px">${s.name}</h3><div class="nums" style="grid-template-columns:1fr 1fr"><div><small>السكشن</small><span class="big">${s.section}</span></div><div><small>المجموعة</small><span class="big">${s.group}</span></div></div>`;
+}
+
+/* request via whatsapp */
+function sendReq(e){
+  e.preventDefault();
+  open(wa(`السلام عليكم، أرغب في طلب بياناتي الجامعية:\n- الاسم: ${$('#rn').value}\n- الهاتف: ${$('#rp').value}\n- المطلوب: ${$('#rt').value}\n- ملاحظات: ${$('#rm').value||'-'}`),'_blank');
+}
+
+/* back buttons + initial route */
+$$('.view').forEach(v=>{if(v.id!=='home')v.insertAdjacentHTML('afterbegin',`<button class="back" onclick="back()">${ico('arr')}رجوع</button>`)});
+{const h=location.hash.slice(1).split('/'),e=document.getElementById(h[0]),f=e&&e.classList.contains('view')?h[0]:'home';
+history.replaceState({v:f,sub:h[1]||null,n:0},'');show(f,h[1]||null)}
+</script>
+</body>
+</html>
