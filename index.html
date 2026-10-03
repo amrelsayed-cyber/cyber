@@ -489,12 +489,12 @@ let fbSub=null,fbPath=[],fbItems=[];
 function drawFb(){
   const root=subNode(fbSub);let node=root;
   fbPath=fbPath.filter(n=>{const x=node&&node.c&&node.c.find(y=>y.n===n&&y.c);if(x)node=x;return !!x});
-  const crumbs=[`<button onclick="fbGo(0)">${esc(fbSub.title)}</button>`].concat(fbPath.map((n,i)=>`<button onclick="fbGo(${i+1})">${esc(n)}</button>`)).join('<span>›</span>');
+  const crumbs=[`<button onclick="fbGo(0)">${esc(fbSub.title)}</button>`].concat(fbPath.map((n,i)=>`<button onclick="fbGo(${i+1})">${esc(n.replace(/_/g,' '))}</button>`)).join('<span>›</span>');
   fbItems=node.c.slice().sort((a,b)=>(a.c?0:1)-(b.c?0:1));
   const rows=fbItems.map((x,i)=>{
-    if(x.c)return `<button class="row fold" onclick="fbOpen(${i})"><span class="fn">${ico('folder')}<span>${esc(x.n)}<small>${x.c.length} عنصر</small></span></span>${ico('arr')}</button>`;
+    if(x.c)return `<button class="row fold" onclick="fbOpen(${i})"><span class="fn">${ico('folder')}<span>${esc(x.n.replace(/_/g,' '))}<small>${x.c.length} عنصر</small></span></span>${ico('arr')}</button>`;
     const href=['files',root.n,...fbPath,x.n].map(encodeURIComponent).join('/'),ext=(x.n.split('.').pop()||'').toUpperCase();
-    return `<div class="row"><span class="fn">${ico('file')}<span>${esc(x.n.replace(/\.[^.]+$/,''))}<small>${ext} • ${sizeTxt(x.s||0)}</small></span></span><a class="btn ghost sm" href="${href}" download>تحميل</a></div>`;
+    return `<div class="row"><span class="fn">${ico('file')}<span>${esc(x.n.replace(/\.[^.]+$/,'').replace(/_/g,' '))}<small>${ext} • ${sizeTxt(x.s||0)}</small></span></span><a class="btn ghost sm" href="${href}" download>تحميل</a></div>`;
   }).join('');
   $('#fb').innerHTML=`<div class="crumbs">${crumbs}</div>${rows||'<p class="none" style="padding:14px 0">المجلد فاضي</p>'}`;
 }
